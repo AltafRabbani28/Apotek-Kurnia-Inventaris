@@ -30,54 +30,57 @@ class Inventori:
         self.hash[nama] = node
         return True
 
-2.     def insert_tree(self, node, key, data):
-        if not node: return Node(key, data)
-        if key < node.key:
-            node.left = self.insert_tree(node.left, key, data)
+    def ubah(self, nama, harga, stok, exp):
+        if nama not in self.hash:
+            return False
+
+        o = self.hash[nama]
+        o.harga = harga
+        o.stok = stok
+        o.kadaluarsa = exp
+        return True
+
+    def hapus(self, nama):
+        if nama not in self.hash:
+            return False
+
+        curr = self.head
+        prev = None
+
+        while curr:
+            if curr.nama == nama:
+                break
+            prev = curr
+            curr = curr.next
+
+        if prev:
+            prev.next = curr.next
         else:
-            node.right = self.insert_tree(node.right, key, data)
-        return node
+            self.head = curr.next
 
-    def tambah(self, n, h, s, e):
-        if n in self.hash: return False
-        o = Obat(n, h, s, e)
-        self.arr.append(o)
-        self.hash[n] = o
-        self.pq.append((h, o))
-        self.pq.sort()
-        self.tree = self.insert_tree(self.tree, h, o)
+        del self.hash[nama]
         return True
 
-    def cari(self, n):
-        return self.hash.get(n)
 
-    def hapus(self, n):
-        o = self.cari(n)
-        if not o: return False
-        self.arr.remove(o)
-        del self.hash[n]
+    def beli(self, nama, jumlah):
+        if nama not in self.hash:
+            return None
+
+        o = self.hash[nama]
+        if o.stok < jumlah:
+            return False
+
+        try:
+            if datetime.strptime(o.kadaluarsa, "%Y-%m-%d") < datetime.today():
+                return "exp"
+        except:
+            return "format"
+
+        self.queue.append((nama, jumlah))
+
+        nama_beli, jml = self.queue.pop(0)
+        o.stok -= jml
         return True
 
-    def update(self, n, h, s, e):
-        o = self.cari(n)
-        if not o: return False
-        o.harga, o.stok, o.exp = h, s, e
-        return True
-
-    def beli(self, n, j):
-        o = self.cari(n)
-        if not o: return None
-        if o.stok < j: return False
-        if datetime.strptime(o.exp, "%Y-%m-%d") < datetime.today():
-            return "exp"
-        o.stok -= j
-        return True
-
-    def sort_nama(self):
-        a = self.arr[:]
-        for i in range(len(a) - 1):
-            for j in range(len(a) - i - 1):
-                if a[j].nama > a[j + 1].nama:
-                    a[j], a[j + 1] = a[j + 1], a[j]
-        return a
-        
+    def cari(self, nama):
+        return self.hash.get(nama)
