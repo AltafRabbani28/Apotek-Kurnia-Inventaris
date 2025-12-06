@@ -84,3 +84,49 @@ class Inventori:
 
     def cari(self, nama):
         return self.hash.get(nama)
+
+    # bubble sort
+    def sort_nama(self):
+        arr = []
+        curr = self.head
+        while curr:
+            arr.append(curr)
+            curr = curr.next
+
+        for i in range(len(arr) - 1):
+            for j in range(len(arr) - i - 1):
+                if arr[j].nama > arr[j + 1].nama:
+                    arr[j], arr[j + 1] = arr[j + 1], arr[j]
+
+        return arr
+
+    # linked list (smw list)
+    def semua(self):
+        hasil = []
+        curr = self.head
+        while curr:
+            hasil.append(curr)
+            curr = curr.next
+        return hasil
+#GUI
+class Aplikasi:
+    def __init__(self, root):
+        self.inv = Inventori()
+        root.title("Inventaris Apotek")
+        root.geometry("1000x600")
+        root.resizable(False, False)
+
+        main = ttk.Frame(root, padding=10)
+        main.pack(fill="both", expand=True)
+
+        kiri = ttk.Frame(main)
+        kiri.grid(row=0, column=0, sticky="nw")
+
+        kanan = ttk.Frame(main)
+        kanan.grid(row=0, column=1, sticky="ne", padx=25)
+
+        # nama input
+        self.field(kiri, "Nama Obat", "nama", 0)
+        self.field(kiri, "Harga", "harga", 1)
+        self.field(kiri, "Stok", "stok", 2)
+        self.field(kiri, "Kadaluarsa (YYYY-MM-DD)", "exp", 3)
