@@ -2,24 +2,33 @@ import tkinter as tk
 from tkinter import ttk, messagebox
 from datetime import datetime
 
-class Obat:
-    def _init_(self, nama, harga, stok, exp):
-        self.nama, self.harga, self.stok, self.exp = nama, harga, stok, exp
+class ObatNode:
+    def _init_(self, nama, harga, stok, kadaluarsa):
+        self.nama = nama
+        self.harga = harga
+        self.stok = stok
+        self.kadaluarsa = kadaluarsa
+        self.next = None
 
     def _repr_(self):
-        return f"{self.nama} | Rp{self.harga} | Stok:{self.stok} | Exp:{self.exp}"
+        return f"{self.nama} | Rp{self.harga} | Stok:{self.stok} | Exp:{self.kadaluarsa}"
         
-class Node:
-    def _init_(self, key, data):
-        self.key, self.data = key, data
-        self.left = self.right = None
-
-class Inventory:
+class Inventori:
     def _init_(self):
-        self.arr = []
-        self.hash = {}
-        self.pq = []
-        self.tree = None
+        self.head = None       # Linked List
+        self.hash = {}         # Hash Table
+        self.queue = []        # Queue untuk pembelian
+
+    def tambah(self, nama, harga, stok, exp):
+        if nama in self.hash:
+            return False
+
+        node = ObatNode(nama, harga, stok, exp)
+        node.next = self.head
+        self.head = node
+
+        self.hash[nama] = node
+        return True
 
 2.     def insert_tree(self, node, key, data):
         if not node: return Node(key, data)
