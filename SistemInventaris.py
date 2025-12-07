@@ -131,7 +131,6 @@ class Aplikasi:
         self.field(kiri, "Stok", "stok", 2)
         self.field(kiri, "Kadaluarsa (YYYY-MM-DD)", "exp", 3)
 
-4.         # ------------------- CRUD BUTTON -------------------
         tk.Button(kiri, text="Tambah", bg="#007bff", fg="white",
                   width=12, command=self.tambah).grid(row=4, column=0, pady=4)
 
@@ -144,7 +143,6 @@ class Aplikasi:
         ttk.Separator(kiri).grid(row=5, column=0, columnspan=3, pady=15, sticky="ew")
 
 
-        # BELI
         self.field(kiri, "Beli (Nama)", "beli_nama", 6)
         self.field(kiri, "Jumlah", "beli_jumlah", 7)
 
@@ -152,19 +150,19 @@ class Aplikasi:
                   width=26, command=self.beli).grid(row=8, column=0, columnspan=3, pady=6)
 
 
-        # LISTBOX KANAN
+    
         ttk.Label(kanan, text="📦 Daftar Obat", font=("Arial", 14, "bold")).pack()
         self.listbox = tk.Listbox(kanan, width=60, height=25, font=("Consolas", 11))
         self.listbox.pack(pady=10)
 
-    # FIELD BUILDER
+
     def field(self, parent, label, name, row):
         ttk.Label(parent, text=label).grid(row=row, column=0, pady=3, sticky="w")
         entry = ttk.Entry(parent, width=25)
         entry.grid(row=row, column=1)
         setattr(self, name, entry)
 
-    # ----------------- ACTIONS -----------------
+
     def tambah(self):
         try:
             harga = int(self.harga.get())
