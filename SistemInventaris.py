@@ -144,7 +144,7 @@ class Aplikasi:
         ttk.Separator(kiri).grid(row=5, column=0, columnspan=3, pady=15, sticky="ew")
 
         # ------------------- BELI -------------------
-        self.field(kiri, "Beli (Nama)", "beli_nama", 6)
+        self.field(kiri, "Beli (Nama Barang)", "beli_nama", 6)
         self.field(kiri, "Jumlah", "beli_jumlah", 7)
 
         tk.Button(kiri, text="Beli", bg="#ffc107", fg="black",
