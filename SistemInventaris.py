@@ -131,6 +131,7 @@ class Aplikasi:
         self.field(kiri, "Stok", "stok", 2)
         self.field(kiri, "Kadaluarsa (YYYY-MM-DD)", "exp", 3)
 
+        # ------------------- CRUD BUTTON -------------------
         tk.Button(kiri, text="Tambah", bg="#007bff", fg="white",
                   width=12, command=self.tambah).grid(row=4, column=0, pady=4)
 
@@ -142,38 +143,49 @@ class Aplikasi:
 
         ttk.Separator(kiri).grid(row=5, column=0, columnspan=3, pady=15, sticky="ew")
 
-
+        # ------------------- BELI -------------------
         self.field(kiri, "Beli (Nama)", "beli_nama", 6)
         self.field(kiri, "Jumlah", "beli_jumlah", 7)
 
         tk.Button(kiri, text="Beli", bg="#ffc107", fg="black",
                   width=26, command=self.beli).grid(row=8, column=0, columnspan=3, pady=6)
 
+        ttk.Separator(kiri).grid(row=9, column=0, columnspan=3, pady=15, sticky="ew")
 
-    
+        # ------------------- CARI -------------------
+        self.field(kiri, "Cari Nama", "cari_nama", 10)
+        tk.Button(kiri, text="Cari", bg="#17a2b8", fg="white",
+                  width=26, command=self.cari).grid(row=11, column=0, columnspan=3, pady=6)
+
+        # ------------------- SORT -------------------
+        tk.Button(kiri, text="Urut Nama", bg="#6c757d", fg="white",
+                  width=26, command=self.urut_nama).grid(row=12, column=0, columnspan=3, pady=6)
+
+        # ------------------- LISTBOX -------------------
         ttk.Label(kanan, text="📦 Daftar Obat", font=("Arial", 14, "bold")).pack()
         self.listbox = tk.Listbox(kanan, width=60, height=25, font=("Consolas", 11))
         self.listbox.pack(pady=10)
 
-
+    # FIELD BUILDER
     def field(self, parent, label, name, row):
         ttk.Label(parent, text=label).grid(row=row, column=0, pady=3, sticky="w")
         entry = ttk.Entry(parent, width=25)
         entry.grid(row=row, column=1)
         setattr(self, name, entry)
 
-
+    # ------------------- ACTIONS -------------------
     def tambah(self):
         try:
             harga = int(self.harga.get())
             stok = int(self.stok.get())
         except:
             return messagebox.showerror("Err", "Harga/Stok harus angka!")
-
+        
         if self.inv.tambah(self.nama.get(), harga, stok, self.exp.get()):
             messagebox.showinfo("OK", "Obat ditambahkan")
         else:
             messagebox.showerror("Err", "Nama sudah ada")
+
         self.refresh()
 
     def ubah(self):
@@ -187,6 +199,7 @@ class Aplikasi:
             messagebox.showinfo("OK", "Obat diperbarui")
         else:
             messagebox.showerror("Err", "Obat tidak ditemukan")
+
         self.refresh()
 
     def hapus(self):
@@ -194,6 +207,7 @@ class Aplikasi:
             messagebox.showinfo("OK", "Obat dihapus")
         else:
             messagebox.showerror("Err", "Obat tidak ditemukan")
+
         self.refresh()
 
     def beli(self):
@@ -231,6 +245,10 @@ class Aplikasi:
         for o in self.inv.semua():
             self.listbox.insert(tk.END, repr(o))
 
+
+# ======================================================
+#                        MAIN
+# ======================================================
 if __name__ == "__main__":
     root = tk.Tk()
     Aplikasi(root)
