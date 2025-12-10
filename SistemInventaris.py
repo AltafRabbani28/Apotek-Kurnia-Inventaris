@@ -15,9 +15,9 @@ class ObatNode:
         
 class Inventori:
     def _init_(self):
-        self.head = None       # Linked List
-        self.hash = {}         # Hash Table
-        self.queue = []        # Queue untuk pembelian
+        self.head = None       
+        self.hash = {}        
+        self.queue = []       
 
     def tambah(self, nama, harga, stok, exp):
         if nama in self.hash:
@@ -231,10 +231,6 @@ class Aplikasi:
         for o in self.inv.semua():
             self.listbox.insert(tk.END, repr(o))
 
-
-# ======================================================
-#                        MAIN
-# ======================================================
 if __name__ == "__main__":
     root = tk.Tk()
     Aplikasi(root)
